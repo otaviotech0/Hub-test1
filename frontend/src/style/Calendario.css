@@ -1,0 +1,107 @@
+.calendario-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 100%;
+}
+
+.calendario-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1c1c1e;
+  letter-spacing: -0.5px;
+}
+
+.calendario-header p {
+  font-size: 13px;
+  color: #8e8e93;
+  margin-top: 2px;
+}
+
+.apple-calendar-wrapper {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.react-calendar {
+  width: 100% !important;
+  max-width: 100%;
+  background: transparent !important;
+  border: none !important;
+  font-family: inherit !important;
+}
+
+.react-calendar__navigation {
+  margin-bottom: 20px !important;
+  height: 44px !important;
+}
+
+.react-calendar__navigation button {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #0071e3 !important;
+  border-radius: 8px !important;
+}
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  background-color: #f2f2f7 !important;
+}
+
+.react-calendar__month-view__weekdays__weekday abbr {
+  text-decoration: none !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #8e8e93 !important;
+}
+
+.react-calendar__tile {
+  min-height: 90px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  padding: 8px !important;
+  border-radius: 10px !important;
+  transition: all 0.15s ease;
+  border: 2px solid transparent !important;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background-color: #f2f2f7 !important;
+}
+
+.react-calendar__tile--now {
+  background-color: #e8f1fb !important;
+  font-weight: 700 !important;
+}
+
+.react-calendar__tile--now abbr {
+  color: #0071e3 !important;
+}
+
+.react-calendar__tile--active {
+  background-color: transparent !important;
+  border-color: #0071e3 !important;
+  color: #1c1c1e !important;
+}
+
+.react-cal-event {
+  background: #0071e3;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 6px;
+  margin-top: auto;
+  width: 100%;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 2px 6px rgba(0, 113, 227, 0.15);
+}
