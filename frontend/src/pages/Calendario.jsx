@@ -6,13 +6,14 @@ import "../style/Calendario.css";
 
 export default function Calendario() {
   const [dataSelecionada, setDataSelecionada] = useState(new Date());
-  const [compromissos, setCompromissos] = useState({}); // { "YYYY-MM-DD": { _id, title } }
+  const [compromissos, setCompromissos] = useState({});
+  const [modal, setModal] = useState(null); // { dateKey, label }
+  const [inputValue, setInputValue] = useState("");
 
   const authHeader = () => ({
     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
   });
 
-  // Load all events and reshape into the map your UI already uses
   useEffect(() => {
     axios.get("/api/events", authHeader()).then(({ data }) => {
       const map = {};
@@ -21,32 +22,55 @@ export default function Calendario() {
     });
   }, []);
 
-  const handleDayClick = async (value) => {
+  const handleDayClick = (value) => {
     const dateKey = value.toISOString().split("T")[0];
-    const titulo = prompt(
-      `Adicionar evento para o dia ${value.getDate()}/${value.getMonth() + 1}:`
-    );
-    if (!titulo?.trim()) return;
+    const label = value.toLocaleDateString("pt-BR", {
+      weekday: "long", day: "numeric", month: "long",
+    });
+    setInputValue(compromissos[dateKey]?.title || "");
+    setModal({ dateKey, label });
+  };
 
-    const { data } = await axios.post("/api/events", { date: dateKey, title: titulo }, authHeader());
-    setCompromissos((prev) => ({ ...prev, [dateKey]: { _id: data._id, title: data.title } }));
+  const handleSave = async () => {
+    if (!inputValue.trim()) return;
+    const { data } = await axios.post(
+      "/api/events",
+      { date: modal.dateKey, title: inputValue.trim() },
+      authHeader()
+    );
+    setCompromissos((prev) => ({
+      ...prev,
+      [modal.dateKey]: { _id: data._id, title: data.title },
+    }));
+    setModal(null);
+  };
+
+  const handleDelete = async () => {
+    const evento = compromissos[modal.dateKey];
+    if (!evento) return;
+    await axios.delete(`/api/events/${evento._id}`, authHeader());
+    setCompromissos((prev) => {
+      const next = { ...prev };
+      delete next[modal.dateKey];
+      return next;
+    });
+    setModal(null);
   };
 
   const renderTileContent = ({ date, view }) => {
     if (view !== "month") return null;
     const dateKey = date.toISOString().split("T")[0];
     const evento = compromissos[dateKey];
-    return evento ? <div className="react-cal-event">{evento.title}</div> : null;
+    return evento
+      ? <div className="react-cal-event">{evento.title}</div>
+      : null;
   };
 
   return (
     <div className="calendario-page-container">
       <header className="calendario-header">
         <h1>Calendário Acadêmico</h1>
-        <p>
-          Selecione qualquer dia para agendar suas provas ou trabalhos de
-          faculdade.
-        </p>
+        <p>Clique em qualquer dia para adicionar um evento.</p>
       </header>
 
       <div className="apple-calendar-wrapper">
@@ -58,6 +82,42 @@ export default function Calendario() {
           locale="pt-BR"
         />
       </div>
+
+      {modal && (
+        <div className="modal-overlay" onClick={() => setModal(null)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>{modal.label}</h2>
+              <button className="modal-close" onClick={() => setModal(null)}>✕</button>
+            </div>
+
+            <label className="modal-label">Título do evento</label>
+            <input
+              className="modal-input"
+              type="text"
+              placeholder="Ex: Prova de Cálculo, Entrega de TCC..."
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSave()}
+              autoFocus
+            />
+
+            <div className="modal-actions">
+              {compromissos[modal.dateKey] && (
+                <button className="btn-delete" onClick={handleDelete}>
+                  Remover
+                </button>
+              )}
+              <button className="btn-cancel" onClick={() => setModal(null)}>
+                Cancelar
+              </button>
+              <button className="btn-save" onClick={handleSave}>
+                Salvar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

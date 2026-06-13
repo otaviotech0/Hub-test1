@@ -1,0 +1,141 @@
+.tarefas-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 100%;
+}
+
+.tarefas-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1c1c1e;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.tarefas-header p {
+  font-size: 13px;
+  color: #8e8e93;
+  margin: 4px 0 0;
+}
+
+.tarefas-add-form {
+  display: flex;
+  gap: 10px;
+}
+
+.tarefas-add-form input {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  outline: none;
+  padding: 12px 16px;
+  font-size: 14px;
+  border-radius: 12px;
+  font-family: inherit;
+  color: #1c1c1e;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.tarefas-add-form input::placeholder {
+  color: #aeaeb2;
+}
+
+.tarefas-add-form button {
+  background: #0071e3;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.tarefas-add-form button:hover {
+  background: #0077ed;
+}
+
+.tarefas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tarefas-empty {
+  font-size: 14px;
+  color: #8e8e93;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.tarefas-section-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #aeaeb2;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin: 12px 0 4px;
+}
+
+.tarefa-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  transition: background 0.15s;
+}
+
+.tarefa-item.done {
+  opacity: 0.55;
+}
+
+.tarefa-checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid #c7c7cc;
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+
+.tarefa-checkbox.checked {
+  background: #34c759;
+  border-color: #34c759;
+}
+
+.tarefa-text {
+  flex: 1;
+  font-size: 14px;
+  color: #1c1c1e;
+}
+
+.tarefa-item.done .tarefa-text {
+  text-decoration: line-through;
+  color: #aeaeb2;
+}
+
+.tarefa-delete {
+  background: none;
+  border: none;
+  color: #c7c7cc;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+  line-height: 1;
+}
+
+.tarefa-delete:hover {
+  color: #ff3b30;
+  background: #fff0f0;
+}

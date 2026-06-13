@@ -15,6 +15,7 @@ import Calendario from "./pages/Calendario";
 import Notes from "./pages/Notes";
 import Settings from "./pages/Settings";
 import NotFound from "./components/NotFound";
+import Tarefas from "./pages/Tarefas";
 
 function ProtectedLayout({ user, setUser }) {
   if (!user) {
@@ -73,7 +74,7 @@ function App() {
           <Route path="/calendario" element={<Calendario />} />
           <Route path="/notes" element={<Notes />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/tarefas" element={<Navigate to="/" replace />} />
+          <Route path="/tarefas" element={<Tarefas />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

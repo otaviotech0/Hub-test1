@@ -45,7 +45,7 @@ export default function Layout({ user, setUser }) {
           </NavLink>
 
           <NavLink
-            to="/"
+            to="/tarefas"
             className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
           >
             <CheckSquare className="nav-icon" size={20} />
