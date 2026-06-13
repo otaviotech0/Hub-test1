@@ -121,21 +121,53 @@ function FocoWidget() {
 }
 
 function CompromissosWidget() {
+  const [proximos, setProximos] = useState([]);
+
+  useEffect(() => {
+    const authHeader = {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    };
+
+    axios.get("/api/events", authHeader).then(({ data }) => {
+      const today = new Date().toISOString().split("T")[0];
+
+      const futuros = data
+        .filter((e) => e.date >= today)
+        .sort((a, b) => a.date.localeCompare(b.date))
+        .slice(0, 3);
+
+      setProximos(futuros);
+    });
+  }, []);
+
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr + "T12:00:00");
+    return date.toLocaleDateString("pt-BR", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+    });
+  };
+
   return (
     <section className="apple-card widget-compromissos">
       <h3>Próximos Compromissos</h3>
 
-      <div className="compromisso-item border-blue">
-        <h4>Prova de Cálculo - I</h4>
-        <p>
-          Quinta-feira às <span className="time-tag">14:00</span>
+      {proximos.length === 0 ? (
+        <p style={{ fontSize: "13px", color: "#8e8e93", marginTop: "12px" }}>
+          Nenhum evento próximo. Adicione no calendário!
         </p>
-      </div>
-
-      <div className="compromisso-item border-gray">
-        <h4>Entrega de Trabalho - IHC</h4>
-        <p>Sexta-feira (Dia todo)</p>
-      </div>
+      ) : (
+        proximos.map((evento, i) => (
+          <div
+            className={`compromisso-item ${i === 0 ? "border-blue" : "border-gray"}`}
+            key={evento._id}
+          >
+            <h4>{evento.title}</h4>
+            <p style={{ textTransform: "capitalize" }}>{formatDate(evento.date)}</p>
+          </div>
+        ))
+      )}
     </section>
   );
 }
